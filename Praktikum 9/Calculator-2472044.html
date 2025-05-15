@@ -5,8 +5,151 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <style>
+        input[type="text"] {
+        width: 60px;
+        text-align: center;
+        }
+        button {
+        margin: 5px;
+        }
+        .section {
+        margin-bottom: 30px;
+        }
+        .hasil {
+        margin-top: 5px;
+        font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    
+    <!-- Penjumlahan -->
+  <div class="section">
+    <h3><u>Penjumlahan</u></h3>
+    <button onclick="generateAddition()">Refresh</button><br><br>
+    <input type="text" id="add1" readonly>
+    +
+    <input type="text" id="add2" readonly>
+    =
+    <input type="text" id="addResult">
+    <button onclick="checkAddition()">Cek Hasil</button>
+    <div id="addFeedback" class="hasil"></div>
+  </div>
+
+    <!-- Pengurangan -->
+  <div class="section">
+    <h3><u>Pengurangan</u></h3>
+    <button onclick="generateSubtraction()">Refresh</button><br><br>
+    <input type="text" id="sub1" readonly>
+    -
+    <input type="text" id="sub2" readonly>
+    =
+    <input type="text" id="subResult">
+    <button onclick="checkSubtraction()">Cek Hasil</button>
+    <div id="subFeedback" class="hasil"></div>
+  </div>
+
+    <!-- Nilai Bilangan -->
+  <div class="section">
+    <h3><u>Nilai Bilangan</u></h3>
+    <button onclick="generateNumberValue()">Refresh</button><br><br>
+    <input type="text" id="numFull" readonly>
+    =
+    <input type="text" id="hundreds">
+    +
+    <input type="text" id="tens">
+    +
+    <input type="text" id="ones">
+    <button onclick="checkNumberValue()">Cek Hasil</button>
+    <div id="numFeedback" class="hasil"></div>
+  </div>
+
+  <script>
+    let randAdd1, randAdd2;
+    let randSub1, randSub2;
+    let randNumber;
+
+    function generateAddition() {
+      randAdd1 = Math.floor(Math.random() * 500);
+      randAdd2 = Math.floor(Math.random() * 500);
+      document.getElementById("add1").value = randAdd1;
+      document.getElementById("add2").value = randAdd2;
+      document.getElementById("addResult").value = '';
+      document.getElementById("addFeedback").innerHTML = '';
+    }
+
+    function checkAddition() {
+      const userResult = document.getElementById("addResult").value;
+      if (userResult === '') {
+        document.getElementById("addFeedback").innerHTML = "Tidak Ada Jawaban!!! Isi Terlebih Dahulu!!";
+      } else if (parseInt(userResult) === randAdd1 + randAdd2) {
+        document.getElementById("addFeedback").innerHTML = "Jawaban Benar!!!";
+      } else {
+        document.getElementById("addFeedback").innerHTML = "Jawaban Salah!!!";
+      }
+    }
+
+    function generateSubtraction() {
+      do {
+        randSub1 = Math.floor(Math.random() * 500);
+        randSub2 = Math.floor(Math.random() * 500);
+      } while (randSub1 <= randSub2);
+      document.getElementById("sub1").value = randSub1;
+      document.getElementById("sub2").value = randSub2;
+      document.getElementById("subResult").value = '';
+      document.getElementById("subFeedback").innerHTML = '';
+    }
+
+    function checkSubtraction() {
+      const userResult = document.getElementById("subResult").value;
+      if (userResult === '') {
+        document.getElementById("subFeedback").innerHTML = "Tidak Ada Jawaban!!! Isi Terlebih Dahulu!!";
+      } else if (parseInt(userResult) === randSub1 - randSub2) {
+        document.getElementById("subFeedback").innerHTML = "Jawaban Benar!!!";
+      } else {
+        document.getElementById("subFeedback").innerHTML = "Jawaban Salah!!!";
+      }
+    }
+
+    function generateNumberValue() {
+      randNumber = Math.floor(100 + Math.random() * 900);
+      document.getElementById("numFull").value = randNumber;
+      document.getElementById("hundreds").value = '';
+      document.getElementById("tens").value = '';
+      document.getElementById("ones").value = '';
+      document.getElementById("numFeedback").innerHTML = '';
+    }
+
+    function checkNumberValue() {
+      const ratusan = parseInt(document.getElementById("hundreds").value);
+      const puluhan = parseInt(document.getElementById("tens").value);
+      const satuan = parseInt(document.getElementById("ones").value);
+      const hasil = [];
+
+      const correctHundreds = Math.floor(randNumber / 100) * 100;
+      const correctTens = Math.floor((randNumber % 100) / 10) * 10;
+      const correctOnes = randNumber % 10;
+
+      if (ratusan === correctHundreds) {
+        hasil.push("Jawaban Ratusan Benar!!!");
+      } else {
+        hasil.push("Jawaban Ratusan Salah!!!");
+      }
+
+      if (puluhan === correctTens) {
+        hasil.push("Jawaban Puluhan Benar!!!");
+      } else {
+        hasil.push("Jawaban Puluhan Salah!!!");
+      }
+
+      if (satuan === correctOnes) {
+        hasil.push("Jawaban Satuan Benar!!!");
+      } else {
+        hasil.push("Jawaban Satuan Salah!!!");
+      }
+
+      document.getElementById("numFeedback").innerHTML = hasil.join("<br>");
+    }
+  </script>
 </body>
 </html>

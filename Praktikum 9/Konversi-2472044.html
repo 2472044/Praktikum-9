@@ -69,6 +69,7 @@
             <option value="AUD">AUD - Dollar Australia</option>
         </select>
         <button class="swap-btn" onclick="tukar()">Tukar Mata Uang</button>
+        <p align="center">Ke Mata Uang</p>
         <select id="ke">
             <option value="USD">USD - Dollar Amerika</option>
             <option value="IDR">IDR - Rupiah Indonesia</option>
@@ -92,6 +93,35 @@
             SGD: { nama:'Dollar Singapura', nilai: 12750 / 16500 },
             AUD: { nama:'Dollar Australia', nilai: 10500 / 16500 }
         }
+
+    function tukar() {
+      const dari = document.getElementById('dari');
+      const ke = document.getElementById('ke');
+      const temp = dari.value;
+      dari.value = ke.value;
+      ke.value = temp;
+    }
+
+    function konversi() {
+      const jumlah = parseFloat(document.getElementById('jumlah').value);
+      const dari = document.getElementById('dari').value;
+      const ke = document.getElementById('ke').value;
+
+      if (isNaN(jumlah) || jumlah <= 0) {
+        document.getElementById('hasil').innerText = 'Masukkan jumlah yang valid!';
+        return;
+      }
+
+      const nilaiDari = mataUang[dari].nilai;
+      const nilaiKe = mataUang[ke].nilai;
+      const hasil = (jumlah * nilaiDari) / nilaiKe;
+
+      document.getElementById('hasil').innerText = 
+        {jumlah} [dari] [hasil.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2})] [ke];
+    }
+  </script>
+</body>
+</html>
     </script>
 </body>
 </html>

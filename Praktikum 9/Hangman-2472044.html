@@ -1,12 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hangman</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hangman</title>
+<style>
+  body {
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+  }
+  #hangman-img {
+    width: 180px;
+    height: 240px;
+    margin-bottom: 10px;
+  }
+  #answer-display {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 10px;
+    margin: 15px 0;
+  }
+  #clue {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  #input-area {
+    margin-bottom: 20px;
+  }
+  #input-area input[type="text"] {
+    width: 40px;
+    font-size: 20px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  #input-area button {
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+  #lives {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  #result-message {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  #result-message.win {
+    color: green;
+  }
+  #result-message.lose {
+    color: red;
+  }
+</style>
 </head>
 <body>
-    
+
+<img id="hangman-img" src="img/10.jpg" alt="Hangman Image" />
+<div id="answer-display">_ _ _ _ _ _</div>
+<div id="clue">A versatile programming language named after a snake, loved for its simplicity.</div>
+
+<div id="input-area">
+  <input type="text" id="letter-input" maxlength="1" autofocus />
+  <button onclick="checkAnswer()">Check</button>
+</div>
+
+<div id="lives">Lives : 10</div>
+<div id="result-message"></div>
+
+<script>
+  const answers = ["PYTHON", "JAVASCRIPT", "TAILWIND", "REACT", "LARAVEL"];
+  const clues = [
+    "A versatile programming language named after a snake, loved for its simplicity.",
+    "The language that brings interactivity to websites, often abbreviated as JS.",
+    "A utility-first CSS framework for rapidly building custom designs.",
+    "A JavaScript library for building dynamic user interfaces, created by Facebook.",
+    "A PHP framework known for elegant syntax and robust web development tools.",
+  ];
+
+  let answer = "";
+  let answer_ = "";
+  let lives = 10;
+
+  // Fungsi untuk update gambar sesuai lives
+  function updateHangmanImage() {
+    if (lives >= 0 && lives <= 10) {
+      document.getElementById("hangman-img").src = img/{lives}.jpg;
+    }
+  }
+
+  // Fungsi generate soal baru
+  function generate() {
+    const randIndex = Math.floor(Math.random() * answers.length);
+    answer = answers[randIndex];
+    answer_ = "_".repeat(answer.length);
+    lives = 10;
+    updateHangmanImage();
+    document.getElementById("lives").textContent = "Lives : " + lives;
+    document.getElementById("result-message").textContent = "";
+    document.getElementById("result-message").className = "";
+    document.getElementById("clue").textContent = clues[randIndex];
+    document.getElementById("letter-input").disabled = false;
+    document.querySelector("button").disabled = false;
+    updateAnswerDisplay();
+  }
+
+  function updateAnswerDisplay() {
+    document.getElementById("answer-display").textContent = answer_.split("").join(" ");
+  }
+
+  function checkAnswer() {
+    let input = document.getElementById("letter-input").value.toUpperCase();
+    if (!input || input.length !== 1 || !input.match(/[A-Z]/)) {
+      alert("Please enter a valid single letter.");
+      return;
+    }
+    document.getElementById("letter-input").value = "";
+
+    if (answer.includes(input)) {
+      let newAnswer_ = "";
+      for (let i = 0; i < answer.length; i++) {
+        if (answer[i] === input) {
+          newAnswer_ += input;
+        } else {
+          newAnswer_ += answer_[i];
+        }
+      }
+      answer_ = newAnswer_;
+    } else {
+      lives--;
+      document.getElementById("lives").textContent = "Lives : " + lives;
+      updateHangmanImage();
+      if (lives === 0) {
+        gameOver(false);
+        return;
+      }
+    }
+    updateAnswerDisplay();
+    checkWin();
+  }
+
+  function checkWin() {
+    if (!answer_.includes("_")) {
+      gameOver(true);
+    }
+  }
+
+  function gameOver(won) {
+    document.getElementById("letter-input").disabled = true;
+    document.querySelector("button").disabled = true;
+    if (won) {
+      document.getElementById("result-message").textContent = "Kamu Menang!";
+      document.getElementById("result-message").className = "win";
+      document.getElementById("hangman-img").src = "img/win.jpg";
+    } else {
+      document.getElementById("result-message").textContent = "Kamu Kalah!";
+      document.getElementById("result-message").className = "lose";
+      document.getElementById("hangman-img").src = "img/lose.jpg";
+      answer_ = answer;
+      updateAnswerDisplay();
+    }
+  }
+
+  window.onload = generate;
+</script>
+
 </body>
 </html>
