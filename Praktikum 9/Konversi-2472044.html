@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Mata Uang</title>
+    <style>
+    body{
+        font-family: arial, sans-serif;
+        background-color: antiquewhite;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        padding: 50px;
+    }
+    .container{
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+    }
+    h2{
+        text-align: center;
+        color: #555;
+    }
+    input,select{
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button{
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        background-color: #2575fc;
+        cursor: pointer;
+    }
+    .result{
+        text-align: center;
+        color: #2575fc;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .swap-btn{
+        background-color: #2575fc;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h2>Konverter Mata Uang</h2>
+        <p align="center">Jumlah Uang</p>
+        <input type="number" id="jumlah" placeholder="Jumlah Uang" value="1" />
+        <p align="center">Dari Mata Uang</p>
+        <select id="dari">
+            <option value="USD">USD - Dollar Amerika</option>
+            <option value="IDR">IDR - Rupiah Indonesia</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="JPY">JPY - Yen Jepang</option>
+            <option value="GBP">GBP - Pound Inggris</option>
+            <option value="SGD">SGD - Dollar Singapura</option>
+            <option value="AUD">AUD - Dollar Australia</option>
+        </select>
+        <button class="swap-btn" onclick="tukar()">Tukar Mata Uang</button>
+        <select id="ke">
+            <option value="USD">USD - Dollar Amerika</option>
+            <option value="IDR">IDR - Rupiah Indonesia</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="JPY">JPY - Yen Jepang</option>
+            <option value="GBP">GBP - Pound Inggris</option>
+            <option value="SGD">SGD - Dollar Singapura</option>
+            <option value="AUD">AUD - Dollar Australia</option>
+        </select>
+        <button onclick="konversi()">Konversi</button>
+        <div class="result" id="hasil"></div>
+    </div>
+
+    <script>
+        const matauang = {
+            USD: { nama:'Dollar Amerika', nilai: 1 },
+            IDR: { nama:'Rupiah Indonesia', nilai: 16500 },
+            EUR: { nama:'Euro', nilai: 18500 / 16500 },
+            JPY: { nama:'Yen Jepang', nilai: 165 / 16500 },
+            GBP: { nama:'Pound Inggris', nilai: 22000 / 16500 },
+            SGD: { nama:'Dollar Singapura', nilai: 12750 / 16500 },
+            AUD: { nama:'Dollar Australia', nilai: 10500 / 16500 }
+        }
+    </script>
+</body>
+</html>
